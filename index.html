@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Walker Poupe</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #174ea6;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  height: 68px;
+  background: #fff;
+  border-bottom: 1px solid #e5eaf2;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  gap: 14px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.menu-btn {
+  border: none;
+  background: none;
+  color: #174ea6;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #174ea6;
+  flex: 1;
+}
+
+.menu {
+  position: fixed;
+  top: 68px;
+  left: -300px;
+  width: 280px;
+  height: calc(100vh - 68px);
+  background: white;
+  box-shadow: 3px 0 12px #00000018;
+  z-index: 999;
+  transition: left .25s;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.menu.aberto {
+  left: 0;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 15px 12px;
+  border: none;
+  border-bottom: 1px solid #edf0f5;
+  background: white;
+  color: #174ea6;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #eef5ff;
+}
+
+.fundo-menu {
+  display: none;
+  position: fixed;
+  inset: 68px 0 0;
+  background: #00000055;
+  z-index: 998;
+}
+
+.fundo-menu.aberto {
+  display: block;
+}
+
+main {
+  padding-top: 68px;
+}
+
+.pagina {
+  display: none;
+  padding: 20px 16px 40px;
+}
+
+.pagina.ativa {
+  display: block;
+}
+
+h1, h2 {
+  color: #174ea6;
+}
+
+.intro {
+  color: #52647b;
+  line-height: 1.6;
+}
+
+.propaganda {
+  margin: 0 0 32px;
+}
+
+.propaganda img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.propaganda h2 {
+  font-size: 23px;
+  margin: 13px 0 7px;
+}
+
+.propaganda p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #52647b;
+  margin: 0;
+}
+
+.cartao {
+  border: 1px solid #e2eaf5;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 15px 0;
+  box-shadow: 0 3px 12px #174ea60a;
+}
+
+.valor {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+.azul {
+  color: #174ea6;
+}
+
+.verde {
+  color: #18864b;
+}
+
+.aviso {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.botao {
+  background: #174ea6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.campo {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd7e7;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.item {
+  border-bottom: 1px solid #e5eaf2;
+  padding: 12px 0;
+  line-height: 1.5;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+footer {
+  padding: 25px 15px;
+  text-align: center;
+  color: #718096;
+  font-size: 13px;
+  border-top: 1px solid #edf0f5;
+}
+
+@media (min-width: 700px) {
+  .pagina {
+    max-width: 850px;
+    margin: auto;
+    padding-top: 28px;
+  }
+
+  .propaganda img {
+    height: 430px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <button class="menu-btn"
+    onclick="abrirMenu()"
+    aria-label="Abrir menu">☰</button>
+
+  <div class="logo">🦉 WALKER POUPE</div>
+</header>
+
+<div class="fundo-menu" id="fundoMenu"
+  onclick="fecharMenu()"></div>
+
+<nav class="menu" id="menu">
+
+  <button onclick="mostrarPagina('inicio')">
+    🏠 Início
+  </button>
+
+  <button onclick="mostrarPagina('planejamento')">
+    💰 Meu planejamento
+  </button>
+
+  <button onclick="mostrarPagina('plano40')">
+    📅 Plano de 40 dias
+  </button>
+
+  <button onclick="mostrarPagina('saldo')">
+    💵 Saldo atual e próximas entradas
+  </button>
+
+  <button onclick="mostrarPagina('historico')">
+    🧾 Histórico de entradas
+  </button>
+
+  <button onclick="mostrarPagina('investimentos')">
+    📈 Ideias de investimentos
+  </button>
+
+  <button onclick="mostrarPagina('dicas')">
+    💡 Dicas para economizar
+  </button>
+
+</nav>
+
+<main>
+
+<!-- INÍCIO: SOMENTE PROPAGANDAS -->
+
+<section class="pagina ativa" id="inicio">
+
+  <article class="propaganda">
+    <img
+      src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1400&q=85"
+      alt="Dinheiro e planejamento financeiro">
+
+    <h2>Cuide bem do seu dinheiro</h2>
+
+    <p>
+      Pequenas decisões financeiras podem ajudar você
+      a construir um futuro mais organizado.
+    </p>
+  </article>
+
+  <article class="propaganda">
+    <img
+      src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85"
+      alt="Organização das finanças">
+
+    <h2>Organize suas finanças</h2>
+
+    <p>
+      Planeje suas entradas e acompanhe seus compromissos
+      para conhecer melhor seu dinheiro.
+    </p>
+  </article>
+
+  <article class="propaganda">
+    <img
+      src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1400&q=85"
+      alt="Mercado financeiro">
+
+    <h2>Aprenda sobre investimentos</h2>
+
+    <p>
+      Conheça o mercado financeiro e estude os riscos
+      antes de tomar decisões.
+    </p>
+  </article>
+
+  <article class="propaganda">
+    <img
+      src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?auto=format&fit=crop&w=1400&q=85"
+      alt="Planejamento e objetivos financeiros">
+
+    <h2>Transforme seus planos em objetivos</h2>
+
+    <p>
+      Educação financeira começa com organização,
+      conhecimento e planejamento.
+    </p>
+  </article>
+
+</section>
+
+<!-- PLANEJAMENTO -->
+
+<section class="pagina" id="planejamento">
+
+  <h1>Meu planejamento</h1>
+
+  <p class="intro">
+    Organize seu dinheiro e acompanhe seus objetivos.
+  </p>
+
+  <div class="cartao">
+    <h2>Meu objetivo financeiro</h2>
+
+    <label for="objetivo">Nome do objetivo</label>
+
+    <input class="campo" id="objetivo"
+      placeholder="Ex.: Minha reserva financeira">
+
+    <label for="meta">Valor da meta em reais</label>
+
+    <input class="campo" id="meta"
+      type="number" min="0" step="0.01"
+      placeholder="Ex.: 5000">
+
+    <button class="botao" onclick="salvarObjetivo()">
+      Salvar objetivo
+    </button>
+
+    <p id="objetivoSalvo"></p>
+  </div>
+
+</section>
+
+<!-- PLANO DE 40 DIAS ÚTEIS -->
+
+<section class="pagina" id="plano40">
+
+  <h1>Plano de 40 dias úteis</h1>
+
+  <p class="intro">
+    Início do planejamento: segunda-feira, 12/10/2026.
+    A contagem considera segunda a sexta-feira.
+  </p>
+
+  <div class="cartao">
+    <h2>Regras do plano</h2>
+
+    <div class="item">
+      <strong>Entrada programada:</strong> R$ 180,00
+    </div>
+
+    <div class="item">
+      <strong>Horário:</strong> 15h nos dias úteis
+    </div>
+
+    <div class="item">
+      <strong>Saldo de referência em 15/10:</strong> R$ 970,00
+    </div>
+
+    <p class="aviso">
+      As entradas futuras são previsões. O saldo real só
+      aumenta após confirmação da entrada.
+    </p>
+
+    <button class="botao" onclick="gerarCalendario()">
+      Consultar os 40 dias úteis
+    </button>
+
+    <div id="calendario"></div>
+  </div>
+
+</section>
+
+<!-- SALDO ATUAL -->
+
+<section class="pagina" id="saldo">
+
+  <h1>Saldo atual</h1>
+
+  <div class="cartao">
+    <p>Saldo de referência em 15/10/2026</p>
+
+    <div class="valor azul" id="saldoAtual">
+      R$ 970,00
+    </div>
+  </div>
+
+  <div class="cartao">
+    <h2>📈 Próxima entrada programada</h2>
+
+    <div class="valor verde">+ R$ 180,00</div>
+
+    <p id="dataEntrada">
+      Próxima entrada prevista: 16/10/2026, às 15h.
+    </p>
+
+    <hr>
+
+    <p>Saldo previsto após a próxima entrada:</p>
+
+    <div class="valor azul" id="saldoPrevisto">
+      R$ 1.150,00
+    </div>
+
+    <p class="aviso">
+      Este valor é uma previsão. A entrada não é somada
+      ao saldo atual até ser confirmada.
+    </p>
+  </div>
+
+  <div class="cartao">
+    <h2>Verificação das entradas</h2>
+
+    <p id="statusEntrada">
+      Aguardando confirmação financeira.
+    </p>
+
+    <p class="aviso">
+      A confirmação automática real exige uma integração
+      financeira no servidor. O navegador não comprova
+      sozinho que o dinheiro entrou.
+    </p>
+  </div>
+
+</section>
+
+<!-- HISTÓRICO -->
+
+<section class="pagina" id="historico">
+
+  <h1>Histórico de entradas</h1>
+
+  <p class="intro">
+    Consulte as entradas registradas neste navegador.
+  </p>
+
+  <div class="cartao">
+    <div id="listaHistorico">
+      Nenhuma entrada registrada neste navegador.
+    </div>
+
+    <p class="aviso">
+      Para manter o histórico sincronizado entre dispositivos,
+      será necessário salvar os dados no servidor.
+    </p>
+  </div>
+
+</section>
+
+<!-- INVESTIMENTOS -->
+
+<section class="pagina" id="investimentos">
+
+  <h1>Ideias de investimentos</h1>
+
+  <div class="cartao">
+    <h2>Reserva de emergência</h2>
+
+    <p>
+      Estude como organizar uma reserva para imprevistos
+      antes de assumir riscos com investimentos.
+    </p>
+  </div>
+
+  <div class="cartao">
+    <h2>Renda fixa</h2>
+
+    <p>
+      Conheça Tesouro Direto, CDB, liquidez, prazos,
+      impostos e riscos.
+    </p>
+  </div>
+
+  <div class="cartao">
+    <h2>Bolsa de valores</h2>
+
+    <p>
+      Estude ações, fundos e as oscilações do mercado.
+      Não existe rendimento garantido.
+    </p>
+  </div>
+
+</section>
+
+<!-- DICAS -->
+
+<section class="pagina" id="dicas">
+
+  <h1>Dicas para economizar</h1>
+
+  <div class="cartao">
+    <h2>1. Registre suas despesas</h2>
+    <p>Anote os gastos para entender para onde vai o dinheiro.</p>
+  </div>
+
+  <div class="cartao">
+    <h2>2. Planeje os compromissos</h2>
+    <p>Organize as datas de vencimento e os valores necessários.</p>
+  </div>
+
+  <div class="cartao">
+    <h2>3. Compare preços</h2>
+    <p>Pesquise antes de comprar e evite gastos desnecessários.</p>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  🦉 Walker Poupe — educação e organização financeira.
+</footer>
+
+<script>
+const CHAVE = "walkerPoupeDadosV2";
+
+const SALDO_INICIAL = 970;
+const ENTRADA_DIARIA = 180;
+
+// O saldo inicial é a referência de 15/10/2026.
+function carregarDados() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(CHAVE));
+
+    if (salvo && typeof salvo.saldo === "number") {
+      return {
+        saldo: salvo.saldo,
+        historico: Array.isArray(salvo.historico)
+          ? salvo.historico : [],
+        objetivo: salvo.objetivo || "",
+        meta: Number(salvo.meta) || 0
+      };
+    }
+  } catch (erro) {
+    console.warn("Não foi possível ler os dados salvos.");
+  }
+
+  return {
+    saldo: SALDO_INICIAL,
+    historico: [],
+    objetivo: "",
+    meta: 0
+  };
+}
+
+let dados = carregarDados();
+
+function salvarDados() {
+  localStorage.setItem(CHAVE, JSON.stringify(dados));
+}
+
+function dinheiro(valor) {
+  return Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function abrirMenu() {
+  document.getElementById("menu").classList.add("aberto");
+  document.getElementById("fundoMenu").classList.add("aberto");
+}
+
+function fecharMenu() {
+  document.getElementById("menu").classList.remove("aberto");
+  document.getElementById("fundoMenu").classList.remove("aberto");
+}
+
+function mostrarPagina(id) {
+  document.querySelectorAll(".pagina").forEach(pagina => {
+    pagina.classList.remove("ativa");
+  });
+
+  document.getElementById(id).classList.add("ativa");
+
+  fecharMenu();
+  window.scrollTo(0, 0);
+
+  if (id === "saldo") atualizarSaldo();
+  if (id === "historico") atualizarHistorico();
+  if (id === "planejamento") carregarObjetivo();
+}
+
+function proximaDataUtil(dataAtual) {
+  const proxima = new Date(dataAtual);
+  proxima.setHours(0, 0, 0, 0);
+
+  // A entrada ocorre às 15h. Se já passou desse horário,
+  // a previsão passa para o próximo dia útil.
+  const agora = new Date();
+
+  if (
+    proxima.toDateString() === agora.toDateString() &&
+    agora.getHours() >= 15
+  ) {
+    proxima.setDate(proxima.getDate() + 1);
+  }
+
+  while (proxima.getDay() === 0 || proxima.getDay() === 6) {
+    proxima.setDate(proxima.getDate() + 1);
+  }
+
+  return proxima;
+}
+
+function atualizarSaldo() {
+  document.getElementById("saldoAtual").textContent =
+    dinheiro(dados.saldo);
+
+  document.getElementById("saldoPrevisto").textContent =
+    dinheiro(dados.saldo + ENTRADA_DIARIA);
+
+  // Data fixa de referência para a previsão inicial.
+  // A partir de 16/10/2026, usa a data atual e dias úteis.
+  const referencia = new Date(2026, 9, 15);
+  const hoje = new Date();
+
+  let proxima;
+
+  if (hoje < referencia) {
+    proxima = new Date(2026, 9, 16);
+  } else {
+    proxima = proximaDataUtil(hoje);
+  }
+
+  document.getElementById("dataEntrada").textContent =
+    "Próxima entrada prevista: " +
+    proxima.toLocaleDateString("pt-BR") +
+    ", às 15h.";
+
+  document.getElementById("statusEntrada").textContent =
+    "Entrada de R$ 180,00 prevista; aguardando confirmação financeira.";
+}
+
+function atualizarHistorico() {
+  const lista = document.getElementById("listaHistorico");
+  lista.replaceChildren();
+
+  if (!dados.historico.length) {
+    lista.textContent =
+      "Nenhuma entrada registrada neste navegador.";
+    return;
+  }
+
+  dados.historico.slice().reverse().forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const titulo = document.createElement("strong");
+    titulo.textContent = dinheiro(item.valor);
+
+    const detalhe = document.createElement("div");
+    detalhe.textContent =
+      (item.data || "") + " — " + (item.descricao || "Entrada");
+
+    div.append(titulo, detalhe);
+    lista.appendChild(div);
+  });
+}
+
+function salvarObjetivo() {
+  dados.objetivo =
+    document.getElementById("objetivo").value.trim();
+
+  dados.meta = Math.max(
+    0,
+    Number(document.getElementById("meta").value) || 0
+  );
+
+  salvarDados();
+  carregarObjetivo();
+
+  document.getElementById("objetivoSalvo").textContent =
+    "Objetivo salvo: " + (dados.objetivo || "Sem nome") +
+    " — Meta: " + dinheiro(dados.meta);
+}
+
+function carregarObjetivo() {
+  document.getElementById("objetivo").value = dados.objetivo;
+  document.getElementById("meta").value =
+    dados.meta ? dados.meta : "";
+}
+
+function gerarCalendario() {
+  const caixa = document.getElementById("calendario");
+  caixa.replaceChildren();
+
+  // O plano começa na segunda-feira, 12/10/2026.
+  const data = new Date(2026, 9, 12);
+  const referencia = new Date(2026, 9, 15);
+
+  let diaUtil = 0;
+
+  while (diaUtil < 40) {
+    const semana = data.getDay();
+
+    if (semana >= 1 && semana <= 5) {
+      diaUtil++;
+
+      const div = document.createElement("div");
+      div.className = "item";
+
+      const dataTexto = data.toLocaleDateString("pt-BR");
+      let texto = "Dia útil " + diaUtil + " — " + dataTexto;
+
+      if (data.toDateString() === referencia.toDateString()) {
+        texto += " — Saldo de referência: R$ 970,00";
+      } else if (data < referencia) {
+        texto += " — Dia anterior à referência";
+      } else {
+        texto += " — Entrada prevista: R$ 180,00 às 15h";
+      }
+
+      div.textContent = texto;
+      caixa.appendChild(div);
+    }
+
+    data.setDate(data.getDate() + 1);
+  }
+}
+
+atualizarSaldo();
+atualizarHistorico();
+carregarObjetivo();
+
+// Atualiza a tela enquanto o site estiver aberto.
+setInterval(() => {
+  atualizarSaldo();
+}, 60000);
+</script>
+
+</body>
+</html>

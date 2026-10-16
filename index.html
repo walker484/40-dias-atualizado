@@ -238,46 +238,32 @@ footer {
 
 <nav class="menu" id="menu">
 
-  <button onclick="mostrarPagina('inicio')">
-    🏠 Início
-  </button>
+  <button onclick="mostrarPagina('inicio')">🏠 Início</button>
 
-  <button onclick="mostrarPagina('planejamento')">
-    💰 Meu planejamento
-  </button>
+  <button onclick="mostrarPagina('planejamento')">💰 Meu planejamento</button>
 
-  <button onclick="mostrarPagina('plano40')">
-    📅 Plano de 40 dias
-  </button>
+  <button onclick="mostrarPagina('plano40')">📅 Plano de 40 dias</button>
 
-  <button onclick="mostrarPagina('saldo')">
-    💵 Saldo atual e próximas entradas
-  </button>
+  <button onclick="mostrarPagina('saldo')">💵 Saldo atual e próximas entradas</button>
 
-  <button onclick="mostrarPagina('historico')">
-    🧾 Histórico de entradas
-  </button>
+  <button onclick="mostrarPagina('historico')">🧾 Histórico de entradas</button>
 
-  <button onclick="mostrarPagina('investimentos')">
-    📈 Ideias de investimentos
-  </button>
+  <button onclick="mostrarPagina('investimentos')">📈 Ideias de investimentos</button>
 
-  <button onclick="mostrarPagina('dicas')">
-    💡 Dicas para economizar
-  </button>
+  <button onclick="mostrarPagina('dicas')">💡 Dicas para economizar</button>
 
 </nav>
 
 <main>
 
-<!-- INÍCIO: SOMENTE PROPAGANDAS -->
+<!-- INÍCIO: DUAS FOTOS ENVIADAS -->
 
 <section class="pagina ativa" id="inicio">
 
   <article class="propaganda">
     <img
-      src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1400&q=85"
-      alt="Dinheiro e planejamento financeiro">
+      src="https://raw.githubusercontent.com/walker484/40-dias-atualizado/refs/heads/main/file_000000008d40820e941088e577daa3cc.png"
+      alt="Walker Poupe - Educação financeira">
 
     <h2>Cuide bem do seu dinheiro</h2>
 
@@ -289,40 +275,14 @@ footer {
 
   <article class="propaganda">
     <img
-      src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85"
-      alt="Organização das finanças">
+      src="https://raw.githubusercontent.com/walker484/40-dias-atualizado/refs/heads/main/file_000000009fb4820e846b4d961b16a147.png"
+      alt="Walker Poupe - Planejamento financeiro">
 
-    <h2>Organize suas finanças</h2>
-
-    <p>
-      Planeje suas entradas e acompanhe seus compromissos
-      para conhecer melhor seu dinheiro.
-    </p>
-  </article>
-
-  <article class="propaganda">
-    <img
-      src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1400&q=85"
-      alt="Mercado financeiro">
-
-    <h2>Aprenda sobre investimentos</h2>
+    <h2>Transforme seus planos em conquistas</h2>
 
     <p>
-      Conheça o mercado financeiro e estude os riscos
-      antes de tomar decisões.
-    </p>
-  </article>
-
-  <article class="propaganda">
-    <img
-      src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?auto=format&fit=crop&w=1400&q=85"
-      alt="Planejamento e objetivos financeiros">
-
-    <h2>Transforme seus planos em objetivos</h2>
-
-    <p>
-      Educação financeira começa com organização,
-      conhecimento e planejamento.
+      Com planejamento, disciplina e educação financeira,
+      cada passo pode aproximar você dos seus objetivos.
     </p>
   </article>
 
@@ -547,7 +507,6 @@ const CHAVE = "walkerPoupeDadosV2";
 const SALDO_INICIAL = 970;
 const ENTRADA_DIARIA = 180;
 
-// O saldo inicial é a referência de 15/10/2026.
 function carregarDados() {
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE));
@@ -615,8 +574,6 @@ function proximaDataUtil(dataAtual) {
   const proxima = new Date(dataAtual);
   proxima.setHours(0, 0, 0, 0);
 
-  // A entrada ocorre às 15h. Se já passou desse horário,
-  // a previsão passa para o próximo dia útil.
   const agora = new Date();
 
   if (
@@ -640,8 +597,6 @@ function atualizarSaldo() {
   document.getElementById("saldoPrevisto").textContent =
     dinheiro(dados.saldo + ENTRADA_DIARIA);
 
-  // Data fixa de referência para a previsão inicial.
-  // A partir de 16/10/2026, usa a data atual e dias úteis.
   const referencia = new Date(2026, 9, 15);
   const hoje = new Date();
 
@@ -715,7 +670,6 @@ function gerarCalendario() {
   const caixa = document.getElementById("calendario");
   caixa.replaceChildren();
 
-  // O plano começa na segunda-feira, 12/10/2026.
   const data = new Date(2026, 9, 12);
   const referencia = new Date(2026, 9, 15);
 
@@ -753,7 +707,6 @@ atualizarSaldo();
 atualizarHistorico();
 carregarObjetivo();
 
-// Atualiza a tela enquanto o site estiver aberto.
 setInterval(() => {
   atualizarSaldo();
 }, 60000);
